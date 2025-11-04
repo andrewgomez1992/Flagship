@@ -1,14 +1,12 @@
-export function up(knex) {
-  return knex.schema.createTable("flags", (table) => {
-    table.uuid("id").primary();
-    table.string("key").unique().notNullable();
+export async function up(knex) {
+  await knex.schema.createTable("flags", (table) => {
+    table.increments("id").primary();
     table.string("name").notNullable();
     table.string("description");
-    table.jsonb("environments").defaultTo("{}");
-    table.timestamps(true, true);
+    table.boolean("is_enabled").defaultTo(false);
   });
 }
 
-export function down(knex) {
-  return knex.schema.dropTableIfExists("flags");
+export async function down(knex) {
+  await knex.schema.dropTableIfExists("flags");
 }
